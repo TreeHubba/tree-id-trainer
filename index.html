@@ -20,6 +20,7 @@
       <button id="start-key-btn" class="mode-btn">🌲 Dichotomous Key</button>
       <button id="start-flashcards-btn" class="mode-btn">🍁 Flashcards</button>
       <button id="start-browse-btn" class="mode-btn">🌿 Browse by Genus</button>
+      <button id="start-quiz-btn" class="mode-btn">📝 Quiz</button>
     </section>
 
     <section id="flashcard-select-view" class="view hidden">
@@ -31,6 +32,43 @@
     <section id="browse-view" class="view hidden">
       <button class="back-btn" id="browse-home-btn">&larr; Home</button>
       <div id="browse-list"></div>
+    </section>
+
+    <section id="quiz-setup-view" class="view hidden">
+      <button class="back-btn" id="quiz-setup-home-btn">&larr; Home</button>
+      <h2>Midterm Quiz</h2>
+      <p id="quiz-summary" class="stats-line"></p>
+      <p class="hint">Covers every genus and species in the course list — genus, species, and common name.</p>
+
+      <fieldset class="quiz-type-fieldset">
+        <legend>Answer style</legend>
+        <label class="quiz-type-option"><input type="checkbox" name="answerMode" value="mc" checked> Multiple choice</label>
+        <label class="quiz-type-option"><input type="checkbox" name="answerMode" value="typed"> Typed answer</label>
+      </fieldset>
+
+      <button id="quiz-start-btn" class="mode-btn">Start Quiz</button>
+    </section>
+
+    <section id="quiz-view" class="view hidden">
+      <button class="back-btn" id="quiz-home-btn">&larr; Home</button>
+      <div class="quiz-top-row">
+        <span id="quiz-progress"></span>
+      </div>
+      <div id="quiz-question"></div>
+      <div id="quiz-answer-area"></div>
+      <div id="quiz-feedback" class="hidden"></div>
+      <div class="quiz-controls">
+        <button id="quiz-submit-btn">Next</button>
+        <button id="quiz-next-btn" class="hidden">Next</button>
+      </div>
+    </section>
+
+    <section id="quiz-results-view" class="view hidden">
+      <button class="back-btn" id="quiz-results-home-btn">&larr; Home</button>
+      <h2>Quiz Results</h2>
+      <p id="quiz-score-summary" class="quiz-score-summary"></p>
+      <div id="quiz-breakdown"></div>
+      <button id="quiz-retry-btn" class="mode-btn">Retry Quiz</button>
     </section>
 
     <section id="key-view" class="view hidden">

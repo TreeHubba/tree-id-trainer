@@ -1,4 +1,4 @@
-const CACHE_NAME = "tree-id-trainer-v3";
+const CACHE_NAME = "tree-id-trainer-v8";
 const ASSETS = [
   "./",
   "./index.html",
@@ -8,6 +8,10 @@ const ASSETS = [
   "./js/key.js",
   "./js/flashcards.js",
   "./js/progress.js",
+  "./js/quiz.js",
+  "./js/quizGenerator.js",
+  "./js/quizHistory.js",
+  "./js/imageUtils.js",
   "./data/species.json",
   "./data/keyTree.json",
   "./icons/icon.svg",

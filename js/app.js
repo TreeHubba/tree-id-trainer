@@ -1,6 +1,8 @@
 import { initKeyMode } from "./key.js";
 import { initFlashcardMode } from "./flashcards.js";
+import { initQuizMode } from "./quiz.js";
 import * as progress from "./progress.js";
+import * as quizHistory from "./quizHistory.js";
 
 // Only gymnosperms are active for now; angiosperm groups (8-11) stay in
 // species.json/keyTree.json but are filtered out until that key is ready.
@@ -134,6 +136,55 @@ async function main() {
     showView("browse-view");
     renderBrowseView(document.getElementById("browse-list"), activeSpecies);
   });
+
+  // Quiz mode intentionally spans ALL species (not just activeSpecies) since
+  // it's meant to help prepare for a midterm covering the full course list.
+  const quizMode = initQuizMode({
+    speciesList,
+    quizHistory,
+    showView,
+    elements: {
+      summaryLabel: document.getElementById("quiz-summary"),
+      answerModeCheckboxes: document.querySelectorAll(
+        'input[name="answerMode"]',
+      ),
+      startBtn: document.getElementById("quiz-start-btn"),
+      progressLabel: document.getElementById("quiz-progress"),
+      questionEl: document.getElementById("quiz-question"),
+      answerArea: document.getElementById("quiz-answer-area"),
+      feedback: document.getElementById("quiz-feedback"),
+      submitBtn: document.getElementById("quiz-submit-btn"),
+      nextBtn: document.getElementById("quiz-next-btn"),
+      scoreSummary: document.getElementById("quiz-score-summary"),
+      breakdown: document.getElementById("quiz-breakdown"),
+      retryBtn: document.getElementById("quiz-retry-btn"),
+    },
+  });
+
+  document.getElementById("start-quiz-btn").addEventListener("click", () => {
+    showView("quiz-setup-view");
+    quizMode.start();
+  });
+
+  document
+    .getElementById("quiz-setup-home-btn")
+    .addEventListener("click", () => {
+      showView("home-view");
+      updateStats(activeSpecies);
+    });
+
+  document.getElementById("quiz-home-btn").addEventListener("click", () => {
+    quizMode.cancel();
+    showView("home-view");
+    updateStats(activeSpecies);
+  });
+
+  document
+    .getElementById("quiz-results-home-btn")
+    .addEventListener("click", () => {
+      showView("home-view");
+      updateStats(activeSpecies);
+    });
 
   document.getElementById("key-home-btn").addEventListener("click", () => {
     showView("home-view");

@@ -1,3 +1,5 @@
+import { createSpeciesImage } from "./imageUtils.js";
+
 export function initKeyMode({ speciesList, keyTree, progress, elements }) {
   let path = [];
   let crumbs = [];
@@ -11,26 +13,6 @@ export function initKeyMode({ speciesList, keyTree, progress, elements }) {
     if (species.groupId !== result.groupId) return false;
     if (result.genus && species.genus !== result.genus) return false;
     return true;
-  }
-
-  function createSpeciesImage(species, altText) {
-    if (species.image) {
-      const img = document.createElement("img");
-      img.src = species.image;
-      img.alt = altText;
-      img.addEventListener("error", () => {
-        img.replaceWith(createImagePlaceholder());
-      });
-      return img;
-    }
-    return createImagePlaceholder();
-  }
-
-  function createImagePlaceholder() {
-    const div = document.createElement("div");
-    div.className = "image-placeholder";
-    div.textContent = "Photo coming soon";
-    return div;
   }
 
   function renderBreadcrumb() {

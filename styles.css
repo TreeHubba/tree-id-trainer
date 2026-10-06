@@ -122,6 +122,22 @@ body {
   color: white;
 }
 
+#quiz-answer-area .option-btn {
+  border-color: #c6c6c6;
+}
+
+#quiz-answer-area .option-btn.correct {
+  border-color: var(--green-dark);
+  border-width: 3px;
+  background: #eaf4ea;
+}
+
+#quiz-answer-area .option-btn.incorrect {
+  border-color: var(--danger);
+  border-width: 3px;
+  background: #fbeaea;
+}
+
 .candidate-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -327,3 +343,100 @@ body {
 .empty-msg {
   color: #777;
 }
+
+.quiz-type-fieldset {
+  border: 1px solid #ddd6c3;
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+}
+
+.quiz-type-fieldset legend {
+  padding: 0 0.3rem;
+  color: var(--green-dark);
+  font-weight: bold;
+}
+
+.quiz-type-option {
+  display: block;
+  padding: 0.3rem 0;
+  font-size: 0.9rem;
+}
+
+.quiz-top-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.quiz-field-label {
+  display: block;
+  margin: 0.6rem 0 0.2rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.quiz-text-input {
+  display: block;
+  width: 100%;
+  margin-top: 0.3rem;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid var(--green-dark);
+  font-size: 1rem;
+}
+
+.quiz-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.quiz-controls button {
+  flex: 1;
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  border: none;
+  background: var(--green);
+  color: white;
+  cursor: pointer;
+}
+
+.quiz-correct {
+  color: var(--green-dark);
+  font-weight: bold;
+}
+
+.quiz-incorrect {
+  color: var(--danger);
+  font-weight: bold;
+}
+
+.quiz-partial {
+  color: var(--amber);
+  font-weight: bold;
+}
+
+.quiz-score-summary {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: var(--green-dark);
+}
+
+.quiz-breakdown-item {
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.quiz-breakdown-prompt {
+  font-weight: bold;
+  margin: 0 0 0.3rem;
+}
+
+.quiz-breakdown-points {
+  font-size: 0.85rem;
+  color: #555;
+}
+

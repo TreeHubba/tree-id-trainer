@@ -1,3 +1,5 @@
+import { createSpeciesImage } from "./imageUtils.js";
+
 function groupByGenus(speciesList) {
   const map = new Map();
   for (const s of speciesList) {
@@ -44,26 +46,6 @@ export function initFlashcardMode({ speciesList, progress, elements }) {
   let index = 0;
   let flipped = false;
   let filterMode = "all";
-
-  function createSpeciesImage(species, altText) {
-    if (species.image) {
-      const img = document.createElement("img");
-      img.src = species.image;
-      img.alt = altText;
-      img.addEventListener("error", () => {
-        img.replaceWith(createImagePlaceholder());
-      });
-      return img;
-    }
-    return createImagePlaceholder();
-  }
-
-  function createImagePlaceholder() {
-    const div = document.createElement("div");
-    div.className = "image-placeholder";
-    div.textContent = "Photo coming soon";
-    return div;
-  }
 
   function applyFilter() {
     filtered =
