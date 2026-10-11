@@ -76,7 +76,6 @@
 
     "spruceTwig": {
       "question": "Is the twig hairless or hairy?",
-      "hint": "Look closely at the twig surface, not the needles.",
       "options": [
         { "label": "Hairless twig", "result": { "speciesId": "picea-glauca" } },
         { "label": "Hairy twig", "result": { "speciesId": "picea-mariana" } }
@@ -85,7 +84,6 @@
 
     "leafArrangement": {
       "question": "Leaf arrangement: opposite or alternate?",
-      "hint": "Check how leaves attach along the twig.",
       "options": [
         { "label": "Opposite", "next": "oppositeLeafType" },
         { "label": "Alternate", "next": "alternateLeafType" }
@@ -158,7 +156,6 @@
 
     "alternateLeafType": {
       "question": "Leaf blade: simple or compound?",
-      "hint": "Compound leaves are divided into 3 or more leaflets.",
       "options": [
         { "label": "Simple", "next": "alternateSimpleMargin" },
         { "label": "Compound", "next": "altCompoundMargin" }
@@ -167,7 +164,6 @@
 
     "alternateSimpleMargin": {
       "question": "Leaf edge: lobed or toothed?",
-      "hint": "Groups 10 (lobed) vs 11 (toothed).",
       "options": [
         { "label": "Lobed", "next": "quercusLobeTip" },
         { "label": "Toothed", "next": "group11Genus" }
@@ -208,7 +204,6 @@
 
     "group11Genus": {
       "question": "Group 11 — which genus?",
-      "hint": "Alternate, simple, toothed leaves.",
       "options": [
         { "label": "Tilia (Basswood)", "result": { "groupId": "Group11", "genus": "Tilia" } },
         { "label": "Salix (Willow)", "result": { "groupId": "Group11", "genus": "Salix" } },
