@@ -182,9 +182,12 @@ async function main() {
     quizHistory,
     showView,
     elements: {
-      answerModeCheckboxes: document.querySelectorAll(
-        'input[name="answerMode"]',
+      typedCheckboxes: document.querySelectorAll('input[name="typedType"]'),
+      mcEnableCheckbox: document.getElementById("quiz-mc-enable"),
+      mcDirectionRadios: document.querySelectorAll(
+        'input[name="mcDirection"]',
       ),
+      setupError: document.getElementById("quiz-setup-error"),
       startBtn: document.getElementById("quiz-start-btn"),
       progressLabel: document.getElementById("quiz-progress"),
       questionEl: document.getElementById("quiz-question"),

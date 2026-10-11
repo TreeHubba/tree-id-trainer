@@ -153,22 +153,33 @@ function genCommonToGenus(species, speciesList, mode, allGenera) {
   };
 }
 
-const QUESTION_GENERATORS = [genCommonToSci, genSciToCommon, genCommonToGenus];
+// Each key is a selectable question type exposed in the quiz setup UI:
+// - genusTyped: type the genus, given the common name
+// - sciTyped: type the genus + species epithet, given the common name
+// - commonTyped: type the common name, given the scientific name
+// - mcMatchLatin: multiple choice, given the common name, pick the Latin name
+// - mcMatchCommon: multiple choice, given the Latin name, pick the common name
+export const QUESTION_TYPES = {
+  genusTyped: { generator: genCommonToGenus, mode: "typed" },
+  sciTyped: { generator: genCommonToSci, mode: "typed" },
+  commonTyped: { generator: genSciToCommon, mode: "typed" },
+  mcMatchLatin: { generator: genCommonToSci, mode: "mc" },
+  mcMatchCommon: { generator: genSciToCommon, mode: "mc" },
+};
 
 // Builds a quiz covering every species exactly once (and therefore every
-// genus at least once), with a randomly chosen question style per species.
-// `modes` is an array containing "mc" and/or "typed" — when both are given,
-// each question independently and randomly picks one so a single quiz can
-// mix multiple-choice and typed-answer questions.
-export function buildQuestionPool(speciesList, modes) {
-  const modeList = Array.isArray(modes) ? modes : [modes];
+// genus at least once). `selectedKeys` is an array of QUESTION_TYPES keys —
+// each question independently and randomly picks one of the selected types,
+// so a single quiz can mix whichever question types the user chose.
+export function buildQuestionPool(speciesList, selectedKeys) {
+  const keys =
+    Array.isArray(selectedKeys) && selectedKeys.length > 0
+      ? selectedKeys
+      : ["mcMatchLatin"];
   const allGenera = Array.from(new Set(speciesList.map((s) => s.genus)));
   const questions = speciesList.map((species) => {
-    const generator =
-      QUESTION_GENERATORS[
-        Math.floor(Math.random() * QUESTION_GENERATORS.length)
-      ];
-    const mode = modeList[Math.floor(Math.random() * modeList.length)];
+    const key = keys[Math.floor(Math.random() * keys.length)];
+    const { generator, mode } = QUESTION_TYPES[key];
     return generator(species, speciesList, mode, allGenera);
   });
 

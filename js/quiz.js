@@ -6,8 +6,14 @@ export function initQuizMode({ speciesList, quizHistory, elements, showView }) {
   let score = 0;
   let maxScore = 0;
   let results = [];
-  let answerModes = ["mc"];
+  let selectedKeys = ["mcMatchLatin"];
   let awaitingNext = false;
+
+  const TYPED_KEY_BY_VALUE = {
+    genus: "genusTyped",
+    sci: "sciTyped",
+    common: "commonTyped",
+  };
 
   function isLastQuestion() {
     return currentIndex >= questions.length - 1;
@@ -23,16 +29,24 @@ export function initQuizMode({ speciesList, quizHistory, elements, showView }) {
     results.push({ question, grade });
   }
 
-  function getAnswerModes() {
-    const checked = Array.from(elements.answerModeCheckboxes)
+  function getSelectedTypeKeys() {
+    const keys = Array.from(elements.typedCheckboxes)
       .filter((cb) => cb.checked)
-      .map((cb) => cb.value);
-    return checked.length > 0 ? checked : ["mc"];
+      .map((cb) => TYPED_KEY_BY_VALUE[cb.value]);
+
+    if (elements.mcEnableCheckbox.checked) {
+      const direction = Array.from(elements.mcDirectionRadios).find(
+        (radio) => radio.checked,
+      );
+      keys.push(direction && direction.value === "common" ? "mcMatchCommon" : "mcMatchLatin");
+    }
+
+    return keys;
   }
 
   function startQuiz() {
-    answerModes = getAnswerModes();
-    questions = quizGenerator.buildQuestionPool(speciesList, answerModes);
+    selectedKeys = getSelectedTypeKeys();
+    questions = quizGenerator.buildQuestionPool(speciesList, selectedKeys);
     currentIndex = 0;
     score = 0;
     maxScore = 0;
@@ -164,7 +178,7 @@ export function initQuizMode({ speciesList, quizHistory, elements, showView }) {
     quizHistory.addAttempt({
       settings: {
         count: questions.length,
-        answerModes,
+        questionTypes: selectedKeys,
       },
       score,
       maxScore,
@@ -220,6 +234,11 @@ export function initQuizMode({ speciesList, quizHistory, elements, showView }) {
   function cancel() {}
 
   elements.startBtn.addEventListener("click", () => {
+    if (getSelectedTypeKeys().length === 0) {
+      elements.setupError.classList.remove("hidden");
+      return;
+    }
+    elements.setupError.classList.add("hidden");
     startQuiz();
     showView("quiz-view");
   });

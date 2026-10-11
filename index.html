@@ -63,10 +63,20 @@
       <h2>Midterm Quiz</h2>
 
       <fieldset class="quiz-type-fieldset">
-        <legend>Answer style</legend>
-        <label class="quiz-type-option"><input type="checkbox" name="answerMode" value="mc" checked> Multiple choice</label>
-        <label class="quiz-type-option"><input type="checkbox" name="answerMode" value="typed"> Typed answer</label>
+        <legend>Typed answer</legend>
+        <label class="quiz-type-option"><input type="checkbox" name="typedType" value="genus"> Common name &rarr; genus</label>
+        <label class="quiz-type-option"><input type="checkbox" name="typedType" value="sci"> Common name &rarr; genus + species</label>
+        <label class="quiz-type-option"><input type="checkbox" name="typedType" value="common"> Scientific name &rarr; common name</label>
       </fieldset>
+
+      <fieldset class="quiz-type-fieldset">
+        <legend>Multiple choice</legend>
+        <label class="quiz-type-option"><input type="checkbox" id="quiz-mc-enable" checked> Include multiple choice</label>
+        <label class="quiz-type-option"><input type="radio" name="mcDirection" value="latin" checked> Match the Latin name</label>
+        <label class="quiz-type-option"><input type="radio" name="mcDirection" value="common"> Match the common name</label>
+      </fieldset>
+
+      <p id="quiz-setup-error" class="hint hidden">Select at least one question type.</p>
 
       <button id="quiz-start-btn" class="mode-btn">Start Quiz</button>
     </section>
