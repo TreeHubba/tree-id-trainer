@@ -248,9 +248,27 @@ async function main() {
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-      navigator.serviceWorker.register("service-worker.js").catch((err) => {
-        console.warn("Service worker registration failed", err);
-      });
+      navigator.serviceWorker
+        .register("service-worker.js")
+        .then((registration) => {
+          // Browsers (especially installed/home-screen PWAs on phones) only
+          // check for a new service-worker.js occasionally on their own —
+          // force an immediate check every time the app is opened so updates
+          // land right away instead of waiting up to a day.
+          registration.update();
+        })
+        .catch((err) => {
+          console.warn("Service worker registration failed", err);
+        });
+    });
+
+    // Once a new service worker takes over, the old cached JS/HTML already
+    // running in memory is still stale — reload once to pick up the update.
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
     });
   }
 }

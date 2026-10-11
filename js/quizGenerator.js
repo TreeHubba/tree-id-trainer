@@ -92,7 +92,12 @@ function genCommonToSci(species, speciesList, mode) {
       ],
     };
   }
-  const distractors = pickDistractors(speciesList, species.id, 3, species.genus);
+  const distractors = pickDistractors(
+    speciesList,
+    species.id,
+    3,
+    species.genus,
+  );
   const options = shuffleArray([species, ...distractors]).map(
     (s) => s.latinName,
   );
@@ -123,7 +128,12 @@ function genSciToCommon(species, speciesList, mode) {
       ],
     };
   }
-  const distractors = pickDistractors(speciesList, species.id, 3, species.genus);
+  const distractors = pickDistractors(
+    speciesList,
+    species.id,
+    3,
+    species.genus,
+  );
   const options = shuffleArray([species, ...distractors]).map(
     (s) => s.commonName,
   );
