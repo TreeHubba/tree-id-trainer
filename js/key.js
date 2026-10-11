@@ -1,4 +1,4 @@
-import { createSpeciesImage } from "./imageUtils.js";
+import { createSpeciesImage, createSpeciesGallery } from "./imageUtils.js";
 
 export function initKeyMode({ speciesList, keyTree, progress, elements }) {
   let path = [];
@@ -113,7 +113,10 @@ export function initKeyMode({ speciesList, keyTree, progress, elements }) {
     showOnly(elements.reveal);
     elements.reveal.innerHTML = "";
 
-    const img = createSpeciesImage(species, `${species.commonName} leaves`);
+    const gallery = createSpeciesGallery(
+      species,
+      `${species.commonName} leaves`,
+    );
 
     const h2 = document.createElement("h2");
     h2.textContent = species.commonName;
@@ -157,7 +160,7 @@ export function initKeyMode({ speciesList, keyTree, progress, elements }) {
     controls.appendChild(learningBtn);
     controls.appendChild(tryAgainBtn);
 
-    elements.reveal.appendChild(img);
+    elements.reveal.appendChild(gallery);
     elements.reveal.appendChild(h2);
     elements.reveal.appendChild(latin);
     elements.reveal.appendChild(controls);

@@ -1,11 +1,6 @@
 import * as quizGenerator from "./quizGenerator.js";
 
-export function initQuizMode({
-  speciesList,
-  quizHistory,
-  elements,
-  showView,
-}) {
+export function initQuizMode({ speciesList, quizHistory, elements, showView }) {
   let questions = [];
   let currentIndex = 0;
   let score = 0;
@@ -33,15 +28,6 @@ export function initQuizMode({
       .filter((cb) => cb.checked)
       .map((cb) => cb.value);
     return checked.length > 0 ? checked : ["mc"];
-  }
-
-  function renderSetup() {
-    const summary = quizHistory.getSummary();
-    if (elements.summaryLabel) {
-      elements.summaryLabel.textContent = summary
-        ? `Last score: ${summary.lastPercentage}% · Best: ${summary.bestPercentage}% · ${summary.attemptCount} quiz(zes) taken`
-        : "No quiz attempts yet.";
-    }
   }
 
   function startQuiz() {
@@ -174,8 +160,7 @@ export function initQuizMode({
   }
 
   function finishQuiz() {
-    const percentage =
-      maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+    const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
     quizHistory.addAttempt({
       settings: {
         count: questions.length,
@@ -259,5 +244,5 @@ export function initQuizMode({
     }
   });
 
-  return { start: renderSetup, cancel };
+  return { start: cancel, cancel };
 }

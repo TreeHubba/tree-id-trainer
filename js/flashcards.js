@@ -1,4 +1,4 @@
-import { createSpeciesImage } from "./imageUtils.js";
+import { createSpeciesImage, createSpeciesGallery } from "./imageUtils.js";
 
 function groupByGenus(speciesList) {
   const map = new Map();
@@ -90,13 +90,10 @@ export function initFlashcardMode({ speciesList, progress, elements }) {
     face.className = "flashcard-face";
     face.tabIndex = 0;
 
-    const img = createSpeciesImage(
-      currentDeck.imageFor(item),
-      flipped ? `${currentDeck.backTitle(item)} example` : "Tree leaves",
-    );
-    face.appendChild(img);
-
     if (!flipped) {
+      const img = createSpeciesImage(currentDeck.imageFor(item), "Tree leaves");
+      face.appendChild(img);
+
       const frontText = currentDeck.frontContent(item);
       if (frontText) {
         const names = document.createElement("p");
@@ -110,6 +107,12 @@ export function initFlashcardMode({ speciesList, progress, elements }) {
       face.appendChild(hint);
       elements.answerControls.classList.add("hidden");
     } else {
+      const gallery = createSpeciesGallery(
+        currentDeck.imageFor(item),
+        `${currentDeck.backTitle(item)} example`,
+      );
+      face.appendChild(gallery);
+
       const h2 = document.createElement("h2");
       h2.textContent = currentDeck.backTitle(item);
       face.appendChild(h2);

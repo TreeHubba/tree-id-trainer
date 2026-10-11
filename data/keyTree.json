@@ -1,9 +1,17 @@
 {
-  "start": "rootGymno",
+  "start": "kingdomSplit",
   "nodes": {
+    "kingdomSplit": {
+      "question": "Gymnosperm or angiosperm?",
+      "hint": "Gymnosperms (conifers) have needles or scale-like leaves; angiosperms (hardwoods) have broad, flat leaves.",
+      "options": [
+        { "label": "Gymnosperm — needles or scales", "next": "rootGymno" },
+        { "label": "Angiosperm — broad, flat leaves", "next": "leafArrangement" }
+      ]
+    },
+
     "rootGymno": {
       "question": "Scales or needles?",
-      "hint": "Look at what's attached to the twig.",
       "options": [
         { "label": "Scales", "result": { "speciesId": "thuja-occidentalis" } },
         { "label": "Needles", "next": "needleArrangement" }
@@ -59,68 +67,20 @@
     },
 
     "roundSize": {
-      "question": "Needle size?",
-      "options": [
-        { "label": "Smaller", "next": "smallColor" },
-        { "label": "Larger", "next": "largeColor" }
-      ]
-    },
-
-    "smallColor": {
       "question": "Needle color?",
       "options": [
         { "label": "Yellow-green needles", "result": { "speciesId": "picea-rubens" } },
-        { "label": "Blue-green needles", "result": { "speciesId": "picea-mariana" } }
-      ]
-    },
-
-    "largeColor": {
-      "question": "Needle color?",
-      "options": [
         { "label": "Dark green needles", "result": { "speciesId": "picea-abies" } },
-        { "label": "Blue-green needles", "result": { "speciesId": "picea-glauca" } }
+        { "label": "Blue-green needles", "next": "spruceTwig" }
       ]
     },
 
-    "root": {
-      "question": "Needles/scales or broad leaves?",
-      "hint": "Look at what is attached to the twig.",
+    "spruceTwig": {
+      "question": "Is the twig hairless or hairy?",
+      "hint": "Look closely at the twig surface, not the needles.",
       "options": [
-        { "label": "Needles or scale-like leaves (conifer)", "next": "needleType" },
-        { "label": "Broad, flat leaves", "next": "leafArrangement" }
-      ]
-    },
-
-    "needleType": {
-      "question": "What do the needles/scales look like? (Groups 1, 3, 4, 5)",
-      "hint": "Compare spacing, bundling, and shape.",
-      "options": [
-        {
-          "label": "Short needles or scales, closely spaced in opposite pairs or whorls of 3, often overlapping and obscuring the stem",
-          "result": { "groupId": "Group1" }
-        },
-        {
-          "label": "Needles evergreen, in bundles of 2, 3, or 5",
-          "result": { "groupId": "Group3" }
-        },
-        {
-          "label": "Needles in tufts of 10+ on dwarf shoots, also single on long shoots (deciduous)",
-          "result": { "groupId": "Group4" }
-        },
-        {
-          "label": "Needles evergreen, single, flat or 4-sided",
-          "next": "group5Genus"
-        }
-      ]
-    },
-
-    "group5Genus": {
-      "question": "Group 5 — which genus?",
-      "hint": "Single evergreen needles: compare needle shape and feel.",
-      "options": [
-        { "label": "Picea (Spruce) — 4-sided needles, roll easily between fingers", "result": { "groupId": "Group5", "genus": "Picea" } },
-        { "label": "Abies (Fir) — flat needles, flexible, rounded tips", "result": { "groupId": "Group5", "genus": "Abies" } },
-        { "label": "Tsuga (Hemlock) — short flat needles in flattened sprays", "result": { "groupId": "Group5", "genus": "Tsuga" } }
+        { "label": "Hairless twig", "result": { "speciesId": "picea-glauca" } },
+        { "label": "Hairy twig", "result": { "speciesId": "picea-mariana" } }
       ]
     },
 
@@ -128,46 +88,122 @@
       "question": "Leaf arrangement: opposite or alternate?",
       "hint": "Check how leaves attach along the twig.",
       "options": [
-        { "label": "Opposite (or sub-opposite/whorled)", "next": "group8Genus" },
-        { "label": "Alternate", "next": "leafType" }
+        { "label": "Opposite (or sub-opposite/whorled)", "next": "oppositeLeafType" },
+        { "label": "Alternate", "next": "alternateLeafType" }
       ]
     },
 
-    "group8Genus": {
-      "question": "Group 8 — which genus?",
-      "hint": "Opposite leaves, simple or compound.",
+    "oppositeLeafType": {
+      "question": "Leaf blade: simple or compound?",
       "options": [
-        { "label": "Acer (Maple)", "result": { "groupId": "Group8", "genus": "Acer" } },
-        { "label": "Fraxinus (Ash)", "result": { "groupId": "Group8", "genus": "Fraxinus" } }
+        { "label": "Simple (one leaf blade)", "next": "acerLobeCount" },
+        { "label": "Compound (divided into leaflets)", "next": "oppositeCompoundLobed" }
       ]
     },
 
-    "leafType": {
+    "oppositeCompoundLobed": {
+      "question": "Are the compound leaflets themselves lobed, or not lobed?",
+      "options": [
+        { "label": "Lobed leaflets", "result": { "speciesId": "acer-negundo" } },
+        { "label": "Not lobed", "next": "fraxinusWidth" }
+      ]
+    },
+
+    "fraxinusWidth": {
+      "question": "Are the leaflets broader or narrower?",
+      "options": [
+        { "label": "Broader leaflets", "result": { "speciesId": "fraxinus-americana" } },
+        { "label": "Narrower leaflets", "result": { "speciesId": "fraxinus-pennsylvanica" } }
+      ]
+    },
+
+    "acerLobeCount": {
+      "question": "How many lobes does the leaf have?",
+      "options": [
+        { "label": "5 lobes", "next": "acerFiveLobeShape" },
+        { "label": "3 lobes", "next": "acerThreeLobeDepth" }
+      ]
+    },
+
+    "acerFiveLobeShape": {
+      "question": "Leaf shape: wider than tall, or balanced (about as wide as tall)?",
+      "options": [
+        { "label": "Wider than tall", "result": { "speciesId": "acer-platanoides" } },
+        { "label": "Balanced (as wide as tall)", "result": { "speciesId": "acer-saccharum" } }
+      ]
+    },
+
+    "acerThreeLobeDepth": {
+      "question": "Are the lobes deeply cut, or not deeply cut?",
+      "options": [
+        { "label": "Deep lobes", "result": { "speciesId": "acer-saccharinum" } },
+        { "label": "Not deep lobes", "next": "acerLobeTip" }
+      ]
+    },
+
+    "acerLobeTip": {
+      "question": "Lobe tips: pointed or rounded?",
+      "options": [
+        { "label": "Pointed", "result": { "speciesId": "acer-rubrum" } },
+        { "label": "Rounded", "next": "acerToothing" }
+      ]
+    },
+
+    "acerToothing": {
+      "question": "Margin teeth: single-toothed or double-toothed?",
+      "options": [
+        { "label": "Single toothed", "result": { "speciesId": "acer-spicatum" } },
+        { "label": "Double toothed", "result": { "speciesId": "acer-pensylvanicum" } }
+      ]
+    },
+
+    "alternateLeafType": {
       "question": "Leaf blade: simple or compound?",
       "hint": "Compound leaves are divided into 3 or more leaflets.",
       "options": [
-        { "label": "Compound (3+ leaflets)", "next": "group9Genus" },
-        { "label": "Simple", "next": "leafMargin" }
+        { "label": "Simple", "next": "alternateSimpleMargin" },
+        { "label": "Compound (3+ leaflets)", "next": "altCompoundMargin" }
       ]
     },
 
-    "group9Genus": {
-      "question": "Group 9 — which genus?",
-      "hint": "Alternate, compound leaves.",
-      "options": [
-        { "label": "Robinia (Black Locust)", "result": { "groupId": "Group9", "genus": "Robinia" } },
-        { "label": "Sorbus (Mountain-Ash)", "result": { "groupId": "Group9", "genus": "Sorbus" } },
-        { "label": "Juglans (Butternut)", "result": { "groupId": "Group9", "genus": "Juglans" } },
-        { "label": "Rhus (Sumac)", "result": { "groupId": "Group9", "genus": "Rhus" } }
-      ]
-    },
-
-    "leafMargin": {
+    "alternateSimpleMargin": {
       "question": "Leaf edge: lobed or toothed?",
       "hint": "Groups 10 (lobed) vs 11 (toothed).",
       "options": [
-        { "label": "Lobed", "result": { "groupId": "Group10" } },
+        { "label": "Lobed", "next": "quercusLobeTip" },
         { "label": "Toothed", "next": "group11Genus" }
+      ]
+    },
+
+    "quercusLobeTip": {
+      "question": "Lobe tips: rounded or pointed?",
+      "options": [
+        { "label": "Rounded", "result": { "speciesId": "quercus-macrocarpa" } },
+        { "label": "Pointed", "result": { "speciesId": "quercus-rubra" } }
+      ]
+    },
+
+    "altCompoundMargin": {
+      "question": "Leaflet margins: toothed or smooth?",
+      "options": [
+        { "label": "Margins toothed", "next": "altLeafletWidth" },
+        { "label": "Margins smooth", "result": { "speciesId": "robinia-pseudoacacia" } }
+      ]
+    },
+
+    "altLeafletWidth": {
+      "question": "Leaflets: narrow or broad?",
+      "options": [
+        { "label": "Narrow leaflets", "next": "altToothSharpness" },
+        { "label": "Broad leaflets", "result": { "speciesId": "juglans-cinerea" } }
+      ]
+    },
+
+    "altToothSharpness": {
+      "question": "Teeth: sharp or fine?",
+      "options": [
+        { "label": "Sharp teeth", "result": { "speciesId": "rhus-typhina" } },
+        { "label": "Fine teeth", "result": { "speciesId": "sorbus-americana" } }
       ]
     },
 
@@ -188,3 +224,4 @@
     }
   }
 }
+

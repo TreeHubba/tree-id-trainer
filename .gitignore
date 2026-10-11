@@ -1,3 +1,7 @@
 # Personal study photos stay local only — not published to the public GitHub Pages site.
 images/*
 !images/.gitkeep
+
+# Reference diagrams used only to build the key — not app assets.
+Angiosperms.jpg
+UPDATEDGYMNOTREE.jpg

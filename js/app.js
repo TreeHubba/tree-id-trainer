@@ -1,12 +1,16 @@
 import { initKeyMode } from "./key.js";
 import { initFlashcardMode } from "./flashcards.js";
 import { initQuizMode } from "./quiz.js";
+import { initCompareMode } from "./compare.js";
+import { createSpeciesGallery } from "./imageUtils.js";
 import * as progress from "./progress.js";
 import * as quizHistory from "./quizHistory.js";
 
-// Only gymnosperms are active for now; angiosperm groups (8-11) stay in
-// species.json/keyTree.json but are filtered out until that key is ready.
-const ACTIVE_GROUP_IDS = ["Group1", "Group3", "Group4", "Group5"];
+// Gymnosperms (softwoods) plus the angiosperm (hardwood) groups whose key
+// logic and photos are ready so far (Groups 8-10). Group 11 stays dormant in
+// species.json/keyTree.json until its key/photos are added.
+const SOFTWOOD_GROUP_IDS = ["Group1", "Group3", "Group4", "Group5"];
+const ACTIVE_GROUP_IDS = [...SOFTWOOD_GROUP_IDS, "Group8", "Group9", "Group10"];
 
 async function loadData() {
   const [speciesRes, keyTreeRes] = await Promise.all([
@@ -58,10 +62,17 @@ function renderBrowseView(container, activeSpecies) {
     const ul = document.createElement("ul");
     for (const s of group.species) {
       const li = document.createElement("li");
-      li.textContent = `${s.commonName} — `;
+
+      const names = document.createElement("p");
+      names.textContent = `${s.commonName} — `;
       const em = document.createElement("em");
       em.textContent = s.latinName;
-      li.appendChild(em);
+      names.appendChild(em);
+      li.appendChild(names);
+
+      const gallery = createSpeciesGallery(s, `${s.commonName} leaves`);
+      li.appendChild(gallery);
+
       ul.appendChild(li);
     }
     section.appendChild(ul);
@@ -137,6 +148,28 @@ async function main() {
     renderBrowseView(document.getElementById("browse-list"), activeSpecies);
   });
 
+  const compareMode = initCompareMode({
+    speciesList,
+    softwoodGroupIds: SOFTWOOD_GROUP_IDS,
+    elements: {
+      selectA: document.getElementById("compare-select-a"),
+      selectB: document.getElementById("compare-select-b"),
+      compareBtn: document.getElementById("compare-btn"),
+      results: document.getElementById("compare-results"),
+      filterRadios: document.querySelectorAll('input[name="woodFilter"]'),
+    },
+  });
+
+  document.getElementById("start-compare-btn").addEventListener("click", () => {
+    showView("compare-view");
+    compareMode.start();
+  });
+
+  document.getElementById("compare-home-btn").addEventListener("click", () => {
+    showView("home-view");
+    updateStats(activeSpecies);
+  });
+
   // Quiz mode intentionally spans ALL species (not just activeSpecies) since
   // it's meant to help prepare for a midterm covering the full course list.
   const quizMode = initQuizMode({
@@ -144,7 +177,6 @@ async function main() {
     quizHistory,
     showView,
     elements: {
-      summaryLabel: document.getElementById("quiz-summary"),
       answerModeCheckboxes: document.querySelectorAll(
         'input[name="answerMode"]',
       ),

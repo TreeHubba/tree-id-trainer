@@ -20,6 +20,7 @@
       <button id="start-key-btn" class="mode-btn">🌲 Dichotomous Key</button>
       <button id="start-flashcards-btn" class="mode-btn">🍁 Flashcards</button>
       <button id="start-browse-btn" class="mode-btn">🌿 Browse by Genus</button>
+      <button id="start-compare-btn" class="mode-btn">🔍 Compare Trees</button>
       <button id="start-quiz-btn" class="mode-btn">📝 Quiz</button>
     </section>
 
@@ -34,11 +35,32 @@
       <div id="browse-list"></div>
     </section>
 
+    <section id="compare-view" class="view hidden">
+      <button class="back-btn" id="compare-home-btn">&larr; Home</button>
+      <h2>Compare Trees</h2>
+      <fieldset class="quiz-type-fieldset">
+        <legend>Tree type</legend>
+        <label class="quiz-type-option"><input type="radio" name="woodFilter" value="all" checked> All trees</label>
+        <label class="quiz-type-option"><input type="radio" name="woodFilter" value="softwood"> Softwood</label>
+        <label class="quiz-type-option"><input type="radio" name="woodFilter" value="hardwood"> Hardwood</label>
+      </fieldset>
+      <div class="compare-pickers">
+        <label class="compare-picker-label">
+          Tree A
+          <select id="compare-select-a"></select>
+        </label>
+        <label class="compare-picker-label">
+          Tree B
+          <select id="compare-select-b"></select>
+        </label>
+      </div>
+      <button id="compare-btn" class="mode-btn">Compare</button>
+      <div id="compare-results"></div>
+    </section>
+
     <section id="quiz-setup-view" class="view hidden">
       <button class="back-btn" id="quiz-setup-home-btn">&larr; Home</button>
       <h2>Midterm Quiz</h2>
-      <p id="quiz-summary" class="stats-line"></p>
-      <p class="hint">Covers every genus and species in the course list — genus, species, and common name.</p>
 
       <fieldset class="quiz-type-fieldset">
         <legend>Answer style</legend>
