@@ -38,7 +38,11 @@ export function initQuizMode({ speciesList, quizHistory, elements, showView }) {
       const direction = Array.from(elements.mcDirectionRadios).find(
         (radio) => radio.checked,
       );
-      keys.push(direction && direction.value === "common" ? "mcMatchCommon" : "mcMatchLatin");
+      keys.push(
+        direction && direction.value === "common"
+          ? "mcMatchCommon"
+          : "mcMatchLatin",
+      );
     }
 
     return keys;

@@ -62,11 +62,19 @@ function splitLatin(latinName) {
   return { genus: parts[0], epithet: parts.slice(1).join(" ") };
 }
 
-function pickDistractors(pool, excludeId, count) {
-  return shuffleArray(pool.filter((item) => item.id !== excludeId)).slice(
-    0,
-    count,
+// Picks distractors for a species-level question, preferring other species
+// in the same genus first (so e.g. a maple question is mixed in with other
+// maples instead of obviously-unrelated trees) and only falling back to
+// other genera if there aren't enough same-genus species to fill the count.
+function pickDistractors(pool, excludeId, count, preferGenus) {
+  const candidates = pool.filter((item) => item.id !== excludeId);
+  const sameGenus = shuffleArray(
+    candidates.filter((item) => item.genus === preferGenus),
   );
+  const others = shuffleArray(
+    candidates.filter((item) => item.genus !== preferGenus),
+  );
+  return [...sameGenus, ...others].slice(0, count);
 }
 
 function genCommonToSci(species, speciesList, mode) {
@@ -84,7 +92,7 @@ function genCommonToSci(species, speciesList, mode) {
       ],
     };
   }
-  const distractors = pickDistractors(speciesList, species.id, 3);
+  const distractors = pickDistractors(speciesList, species.id, 3, species.genus);
   const options = shuffleArray([species, ...distractors]).map(
     (s) => s.latinName,
   );
@@ -115,7 +123,7 @@ function genSciToCommon(species, speciesList, mode) {
       ],
     };
   }
-  const distractors = pickDistractors(speciesList, species.id, 3);
+  const distractors = pickDistractors(speciesList, species.id, 3, species.genus);
   const options = shuffleArray([species, ...distractors]).map(
     (s) => s.commonName,
   );
