@@ -3,10 +3,9 @@
   "nodes": {
     "kingdomSplit": {
       "question": "Gymnosperm or angiosperm?",
-      "hint": "Gymnosperms (conifers) have needles or scale-like leaves; angiosperms (hardwoods) have broad, flat leaves.",
       "options": [
-        { "label": "Gymnosperm — needles or scales", "next": "rootGymno" },
-        { "label": "Angiosperm — broad, flat leaves", "next": "leafArrangement" }
+        { "label": "Gymnosperm", "next": "rootGymno" },
+        { "label": "Angiosperm", "next": "leafArrangement" }
       ]
     },
 
@@ -88,7 +87,7 @@
       "question": "Leaf arrangement: opposite or alternate?",
       "hint": "Check how leaves attach along the twig.",
       "options": [
-        { "label": "Opposite (or sub-opposite/whorled)", "next": "oppositeLeafType" },
+        { "label": "Opposite", "next": "oppositeLeafType" },
         { "label": "Alternate", "next": "alternateLeafType" }
       ]
     },
@@ -96,8 +95,8 @@
     "oppositeLeafType": {
       "question": "Leaf blade: simple or compound?",
       "options": [
-        { "label": "Simple (one leaf blade)", "next": "acerLobeCount" },
-        { "label": "Compound (divided into leaflets)", "next": "oppositeCompoundLobed" }
+        { "label": "Simple", "next": "acerLobeCount" },
+        { "label": "Compound", "next": "oppositeCompoundLobed" }
       ]
     },
 
@@ -129,7 +128,7 @@
       "question": "Leaf shape: wider than tall, or balanced (about as wide as tall)?",
       "options": [
         { "label": "Wider than tall", "result": { "speciesId": "acer-platanoides" } },
-        { "label": "Balanced (as wide as tall)", "result": { "speciesId": "acer-saccharum" } }
+        { "label": "Balanced", "result": { "speciesId": "acer-saccharum" } }
       ]
     },
 
@@ -162,7 +161,7 @@
       "hint": "Compound leaves are divided into 3 or more leaflets.",
       "options": [
         { "label": "Simple", "next": "alternateSimpleMargin" },
-        { "label": "Compound (3+ leaflets)", "next": "altCompoundMargin" }
+        { "label": "Compound", "next": "altCompoundMargin" }
       ]
     },
 

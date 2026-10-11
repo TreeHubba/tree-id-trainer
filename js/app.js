@@ -10,7 +10,13 @@ import * as quizHistory from "./quizHistory.js";
 // logic and photos are ready so far (Groups 8-10). Group 11 stays dormant in
 // species.json/keyTree.json until its key/photos are added.
 const SOFTWOOD_GROUP_IDS = ["Group1", "Group3", "Group4", "Group5"];
-const ACTIVE_GROUP_IDS = [...SOFTWOOD_GROUP_IDS, "Group8", "Group9", "Group10"];
+const ACTIVE_GROUP_IDS = [
+  ...SOFTWOOD_GROUP_IDS,
+  "Group8",
+  "Group9",
+  "Group10",
+  "Group11",
+];
 
 async function loadData() {
   const [speciesRes, keyTreeRes] = await Promise.all([
