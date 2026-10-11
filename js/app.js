@@ -6,9 +6,8 @@ import { createSpeciesGallery } from "./imageUtils.js";
 import * as progress from "./progress.js";
 import * as quizHistory from "./quizHistory.js";
 
-// Gymnosperms (softwoods) plus the angiosperm (hardwood) groups whose key
-// logic and photos are ready so far (Groups 8-10). Group 11 stays dormant in
-// species.json/keyTree.json until its key/photos are added.
+// Gymnosperms (softwoods) plus all angiosperm (hardwood) groups — Groups
+// 8-11 all have key logic and photos now.
 const SOFTWOOD_GROUP_IDS = ["Group1", "Group3", "Group4", "Group5"];
 const ACTIVE_GROUP_IDS = [
   ...SOFTWOOD_GROUP_IDS,

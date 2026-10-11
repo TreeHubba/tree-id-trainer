@@ -98,7 +98,7 @@ export function initKeyMode({ speciesList, keyTree, progress, elements }) {
       const img = createSpeciesImage(species, `${species.commonName} leaves`);
       const label = document.createElement("span");
       label.className = "candidate-label";
-      label.textContent = "?";
+      label.textContent = candidates.length > 1 ? "?" : species.latinName;
       card.appendChild(img);
       card.appendChild(label);
       card.addEventListener("click", () => renderReveal(species));
