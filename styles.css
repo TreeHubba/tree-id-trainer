@@ -545,6 +545,28 @@ body {
   margin-top: 0.4rem;
 }
 
+.chart-image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.chart-thumb-btn {
+  padding: 0;
+  border: 2px solid var(--green);
+  border-radius: var(--radius);
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.chart-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
 .compare-pickers {
   display: flex;
   flex-direction: column;

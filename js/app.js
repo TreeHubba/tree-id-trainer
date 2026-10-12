@@ -2,9 +2,14 @@ import { initKeyMode } from "./key.js";
 import { initFlashcardMode } from "./flashcards.js";
 import { initQuizMode } from "./quiz.js";
 import { initCompareMode } from "./compare.js";
-import { createSpeciesGallery } from "./imageUtils.js";
+import { createSpeciesGallery, openLightbox } from "./imageUtils.js";
 import * as progress from "./progress.js";
 import * as quizHistory from "./quizHistory.js";
+
+const KEY_CHARTS = {
+  gymno: { title: "Gymnosperm Path", src: "UPDATEDGYMNOTREE.jpg" },
+  angio: { title: "Angiosperm Path", src: "Angiosperms.jpg" },
+};
 
 // Gymnosperms (softwoods) plus all angiosperm (hardwood) groups — Groups
 // 8-11 all have key logic and photos now.
@@ -248,6 +253,56 @@ async function main() {
     });
 
   document.getElementById("browse-home-btn").addEventListener("click", () => {
+    showView("home-view");
+    updateStats(activeSpecies);
+  });
+
+  function openKeyChart(chartKey) {
+    const chart = KEY_CHARTS[chartKey];
+    document.getElementById("chart-title").textContent = chart.title;
+
+    const container = document.getElementById("chart-image-container");
+    container.innerHTML = "";
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "chart-thumb-btn";
+    btn.setAttribute("aria-label", `View larger: ${chart.title}`);
+
+    const img = document.createElement("img");
+    img.className = "chart-image";
+    img.src = chart.src;
+    img.alt = chart.title;
+    btn.appendChild(img);
+
+    btn.addEventListener("click", () => {
+      openLightbox([chart.src], 0, chart.title);
+    });
+
+    container.appendChild(btn);
+    showView("chart-view");
+  }
+
+  document.getElementById("start-charts-btn").addEventListener("click", () => {
+    showView("chart-select-view");
+  });
+
+  document
+    .getElementById("chart-select-home-btn")
+    .addEventListener("click", () => {
+      showView("home-view");
+      updateStats(activeSpecies);
+    });
+
+  document.getElementById("chart-gymno-btn").addEventListener("click", () => {
+    openKeyChart("gymno");
+  });
+
+  document.getElementById("chart-angio-btn").addEventListener("click", () => {
+    openKeyChart("angio");
+  });
+
+  document.getElementById("chart-home-btn").addEventListener("click", () => {
     showView("home-view");
     updateStats(activeSpecies);
   });

@@ -1,4 +1,4 @@
-const CACHE_NAME = "tree-id-trainer-v19";
+const CACHE_NAME = "tree-id-trainer-v20";
 const ASSETS = [
   "./",
   "./index.html",
@@ -17,6 +17,8 @@ const ASSETS = [
   "./data/keyTree.json",
   "./icons/icon.svg",
   "./icons/placeholder.svg",
+  "./UPDATEDGYMNOTREE.jpg",
+  "./Angiosperms.jpg",
 ];
 
 self.addEventListener("install", (event) => {
