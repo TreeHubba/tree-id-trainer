@@ -54,6 +54,12 @@ export function initCompareMode({ speciesList, softwoodGroupIds, elements }) {
     const em = document.createElement("em");
     em.textContent = species.latinName;
     latin.appendChild(em);
+    if (species.phonetic) {
+      const phonetic = document.createElement("span");
+      phonetic.className = "phonetic";
+      phonetic.textContent = ` (${species.phonetic})`;
+      latin.appendChild(phonetic);
+    }
     card.appendChild(latin);
 
     const genus = document.createElement("p");

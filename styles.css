@@ -213,6 +213,12 @@ body {
   color: #444;
 }
 
+.phonetic {
+  font-style: normal;
+  font-size: 0.85rem;
+  color: #8a8575;
+}
+
 .latin-list {
   list-style: none;
   margin: 0.4rem 0 0;

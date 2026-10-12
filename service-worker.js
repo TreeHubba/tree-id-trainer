@@ -1,4 +1,4 @@
-const CACHE_NAME = "tree-id-trainer-v18";
+const CACHE_NAME = "tree-id-trainer-v19";
 const ASSETS = [
   "./",
   "./index.html",

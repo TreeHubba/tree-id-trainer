@@ -126,6 +126,12 @@ export function initKeyMode({ speciesList, keyTree, progress, elements }) {
     const em = document.createElement("em");
     em.textContent = species.latinName;
     latin.appendChild(em);
+    if (species.phonetic) {
+      const phonetic = document.createElement("span");
+      phonetic.className = "phonetic";
+      phonetic.textContent = ` (${species.phonetic})`;
+      latin.appendChild(phonetic);
+    }
 
     const controls = document.createElement("div");
     controls.className = "reveal-controls";

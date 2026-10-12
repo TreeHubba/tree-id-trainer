@@ -25,7 +25,10 @@ const DECKS = {
     frontHint: "Tap to reveal name",
     frontContent: () => null,
     backTitle: (item) => item.commonName,
-    backSubtitle: (item) => item.latinName,
+    backSubtitle: (item) => ({
+      latin: item.latinName,
+      phonetic: item.phonetic,
+    }),
   },
   genus: {
     namespace: "genus",
@@ -35,7 +38,8 @@ const DECKS = {
     frontHint: "Tap to reveal genus",
     frontContent: (item) => item.species.map((s) => s.commonName).join(", "),
     backTitle: (item) => item.genus,
-    backSubtitle: (item) => item.species.map((s) => s.latinName),
+    backSubtitle: (item) =>
+      item.species.map((s) => ({ latin: s.latinName, phonetic: s.phonetic })),
   },
 };
 
@@ -124,8 +128,14 @@ export function initFlashcardMode({ speciesList, progress, elements }) {
         subtitle.forEach((name) => {
           const li = document.createElement("li");
           const em = document.createElement("em");
-          em.textContent = name;
+          em.textContent = name.latin;
           li.appendChild(em);
+          if (name.phonetic) {
+            const phonetic = document.createElement("span");
+            phonetic.className = "phonetic";
+            phonetic.textContent = ` (${name.phonetic})`;
+            li.appendChild(phonetic);
+          }
           ul.appendChild(li);
         });
         face.appendChild(ul);
@@ -133,8 +143,14 @@ export function initFlashcardMode({ speciesList, progress, elements }) {
         const latin = document.createElement("p");
         latin.className = "latin-name";
         const em = document.createElement("em");
-        em.textContent = subtitle;
+        em.textContent = subtitle.latin;
         latin.appendChild(em);
+        if (subtitle.phonetic) {
+          const phonetic = document.createElement("span");
+          phonetic.className = "phonetic";
+          phonetic.textContent = ` (${subtitle.phonetic})`;
+          latin.appendChild(phonetic);
+        }
         face.appendChild(latin);
       }
       elements.answerControls.classList.remove("hidden");

@@ -73,6 +73,12 @@ function renderBrowseView(container, activeSpecies) {
       const em = document.createElement("em");
       em.textContent = s.latinName;
       names.appendChild(em);
+      if (s.phonetic) {
+        const phonetic = document.createElement("span");
+        phonetic.className = "phonetic";
+        phonetic.textContent = ` (${s.phonetic})`;
+        names.appendChild(phonetic);
+      }
       li.appendChild(names);
 
       const gallery = createSpeciesGallery(s, `${s.commonName} leaves`);
