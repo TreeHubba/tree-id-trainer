@@ -23,6 +23,20 @@
       <button id="start-compare-btn" class="mode-btn">🔍 Compare Trees</button>
       <button id="start-quiz-btn" class="mode-btn">📝 Quiz</button>
       <button id="start-charts-btn" class="mode-btn">🗺️ Key Charts</button>
+      <button id="start-addphoto-btn" class="mode-btn">📷 Add Photo</button>
+    </section>
+
+    <section id="addphoto-view" class="view hidden">
+      <button class="back-btn" id="addphoto-home-btn">&larr; Home</button>
+      <h2>Add Photo</h2>
+      <label class="compare-picker-label">
+        Tree
+        <select id="addphoto-species-select"></select>
+      </label>
+      <input type="file" id="addphoto-file-input" accept="image/*" capture="environment">
+      <button id="addphoto-save-btn" class="mode-btn">Save Photo</button>
+      <p class="hint">Photos you add here are saved only on this device and show up everywhere this tree's photos appear.</p>
+      <div id="addphoto-list" class="addphoto-list"></div>
     </section>
 
     <section id="chart-select-view" class="view hidden">

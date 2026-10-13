@@ -5,6 +5,7 @@ import { initCompareMode } from "./compare.js";
 import { createSpeciesGallery, openLightbox } from "./imageUtils.js";
 import * as progress from "./progress.js";
 import * as quizHistory from "./quizHistory.js";
+import * as customPhotos from "./customPhotos.js";
 
 const KEY_CHARTS = {
   gymno: { title: "Gymnosperm Path", src: "UPDATEDGYMNOTREE.jpg" },
@@ -99,6 +100,13 @@ function renderBrowseView(container, activeSpecies) {
 
 async function main() {
   const { speciesList, keyTree } = await loadData();
+  let customPhotoMap = await customPhotos.getAllBySpecies();
+  for (const s of speciesList) {
+    const custom = customPhotoMap.get(s.id);
+    if (custom && custom.length) {
+      s.images = [...(s.images || []), ...custom.map((c) => c.url)];
+    }
+  }
   const activeSpecies = speciesList.filter((s) =>
     ACTIVE_GROUP_IDS.includes(s.groupId),
   );
@@ -306,6 +314,117 @@ async function main() {
     showView("home-view");
     updateStats(activeSpecies);
   });
+
+  function renderAddPhotoThumbs(speciesId) {
+    const container = document.getElementById("addphoto-list");
+    container.innerHTML = "";
+    const custom = customPhotoMap.get(speciesId) || [];
+    if (custom.length === 0) {
+      const p = document.createElement("p");
+      p.className = "hint";
+      p.textContent = "No photos added yet for this tree.";
+      container.appendChild(p);
+      return;
+    }
+    for (const photo of custom) {
+      const wrapper = document.createElement("div");
+      wrapper.className = "addphoto-thumb-wrapper";
+
+      const img = document.createElement("img");
+      img.className = "addphoto-thumb";
+      img.src = photo.url;
+      img.alt = "Added photo";
+      wrapper.appendChild(img);
+
+      const delBtn = document.createElement("button");
+      delBtn.type = "button";
+      delBtn.className = "addphoto-delete-btn";
+      delBtn.setAttribute("aria-label", "Delete photo");
+      delBtn.textContent = "\u00d7";
+      delBtn.addEventListener("click", async () => {
+        await customPhotos.deletePhoto(photo.id);
+        customPhotoMap.set(
+          speciesId,
+          (customPhotoMap.get(speciesId) || []).filter(
+            (p) => p.id !== photo.id,
+          ),
+        );
+        const species = speciesList.find((s) => s.id === speciesId);
+        if (species) {
+          species.images = species.images.filter((src) => src !== photo.url);
+        }
+        renderAddPhotoThumbs(speciesId);
+      });
+      wrapper.appendChild(delBtn);
+
+      container.appendChild(wrapper);
+    }
+  }
+
+  function populateAddPhotoSelect() {
+    const select = document.getElementById("addphoto-species-select");
+    select.innerHTML = "";
+    const sorted = [...speciesList].sort((a, b) =>
+      a.commonName.localeCompare(b.commonName),
+    );
+    for (const s of sorted) {
+      const opt = document.createElement("option");
+      opt.value = s.id;
+      opt.textContent = s.commonName;
+      select.appendChild(opt);
+    }
+  }
+
+  document
+    .getElementById("start-addphoto-btn")
+    .addEventListener("click", () => {
+      showView("addphoto-view");
+      populateAddPhotoSelect();
+      renderAddPhotoThumbs(
+        document.getElementById("addphoto-species-select").value,
+      );
+    });
+
+  document.getElementById("addphoto-home-btn").addEventListener("click", () => {
+    showView("home-view");
+    updateStats(activeSpecies);
+  });
+
+  document
+    .getElementById("addphoto-species-select")
+    .addEventListener("change", (event) => {
+      renderAddPhotoThumbs(event.target.value);
+    });
+
+  document
+    .getElementById("addphoto-save-btn")
+    .addEventListener("click", async () => {
+      const select = document.getElementById("addphoto-species-select");
+      const fileInput = document.getElementById("addphoto-file-input");
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const saveBtn = document.getElementById("addphoto-save-btn");
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Saving...";
+      try {
+        const speciesId = select.value;
+        const photo = await customPhotos.addPhoto(speciesId, file);
+        if (!customPhotoMap.has(speciesId)) customPhotoMap.set(speciesId, []);
+        customPhotoMap.get(speciesId).push(photo);
+
+        const species = speciesList.find((s) => s.id === speciesId);
+        if (species) {
+          species.images = [...(species.images || []), photo.url];
+        }
+
+        fileInput.value = "";
+        renderAddPhotoThumbs(speciesId);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Save Photo";
+      }
+    });
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {

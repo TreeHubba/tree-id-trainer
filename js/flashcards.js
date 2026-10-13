@@ -1,4 +1,4 @@
-import { createSpeciesImage, createSpeciesGallery } from "./imageUtils.js";
+import { createSpeciesGallery } from "./imageUtils.js";
 
 function groupByGenus(speciesList) {
   const map = new Map();
@@ -34,7 +34,9 @@ const DECKS = {
     namespace: "genus",
     buildItems: (speciesList) => groupByGenus(speciesList),
     getId: (item) => item.genus,
-    imageFor: (item) => item.species[0],
+    imageFor: (item) => ({
+      images: item.species.map((s) => s.images?.[0]).filter(Boolean),
+    }),
     frontHint: "Tap to reveal genus",
     frontContent: (item) => item.species.map((s) => s.commonName).join(", "),
     backTitle: (item) => item.genus,
@@ -95,8 +97,11 @@ export function initFlashcardMode({ speciesList, progress, elements }) {
     face.tabIndex = 0;
 
     if (!flipped) {
-      const img = createSpeciesImage(currentDeck.imageFor(item), "Tree leaves");
-      face.appendChild(img);
+      const gallery = createSpeciesGallery(
+        currentDeck.imageFor(item),
+        "Tree leaves",
+      );
+      face.appendChild(gallery);
 
       const frontText = currentDeck.frontContent(item);
       if (frontText) {
