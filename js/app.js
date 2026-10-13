@@ -401,22 +401,29 @@ async function main() {
   document
     .getElementById("addphoto-save-btn")
     .addEventListener("click", async () => {
-      const select = document.getElementById("addphoto-species-select");
-      const fileInput = document.getElementById("addphoto-file-input");
-      const errorEl = document.getElementById("addphoto-error");
-      const file = fileInput.files[0];
-      errorEl.classList.add("hidden");
-      errorEl.textContent = "";
-      if (!file) {
-        errorEl.textContent = "Choose a photo first, then tap Save Photo.";
-        errorEl.classList.remove("hidden");
-        return;
-      }
-
       const saveBtn = document.getElementById("addphoto-save-btn");
-      saveBtn.disabled = true;
-      saveBtn.textContent = "Saving...";
       try {
+        const select = document.getElementById("addphoto-species-select");
+        const fileInput = document.getElementById("addphoto-file-input");
+        const errorEl = document.getElementById("addphoto-error");
+        const file = fileInput.files[0];
+        if (errorEl) {
+          errorEl.classList.add("hidden");
+          errorEl.textContent = "";
+        }
+        if (!file) {
+          if (errorEl) {
+            errorEl.textContent = "Choose a photo first, then tap Save Photo.";
+            errorEl.classList.remove("hidden");
+          } else {
+            alert("Choose a photo first, then tap Save Photo.");
+          }
+          return;
+        }
+
+        saveBtn.disabled = true;
+        saveBtn.textContent = "Saving...";
+
         const speciesId = select.value;
         const photo = await customPhotos.addPhoto(speciesId, file);
         if (!customPhotoMap.has(speciesId)) customPhotoMap.set(speciesId, []);
@@ -431,9 +438,14 @@ async function main() {
         renderAddPhotoThumbs(speciesId);
       } catch (err) {
         console.error("Failed to save photo", err);
-        errorEl.textContent =
-          "Couldn't save that photo on this device. Please try again.";
-        errorEl.classList.remove("hidden");
+        const errorEl = document.getElementById("addphoto-error");
+        if (errorEl) {
+          errorEl.textContent =
+            "Couldn't save that photo on this device. Please try again.";
+          errorEl.classList.remove("hidden");
+        } else {
+          alert("Couldn't save that photo on this device. Please try again.");
+        }
       } finally {
         saveBtn.disabled = false;
         saveBtn.textContent = "Save Photo";
