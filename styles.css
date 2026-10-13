@@ -573,6 +573,10 @@ body {
   gap: 0.75rem;
 }
 
+.hint.error {
+  color: var(--danger);
+}
+
 .addphoto-thumb-wrapper {
   position: relative;
   width: 84px;

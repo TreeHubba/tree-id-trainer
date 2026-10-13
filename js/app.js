@@ -380,6 +380,7 @@ async function main() {
     .addEventListener("click", () => {
       showView("addphoto-view");
       populateAddPhotoSelect();
+      document.getElementById("addphoto-error").classList.add("hidden");
       renderAddPhotoThumbs(
         document.getElementById("addphoto-species-select").value,
       );
@@ -393,6 +394,7 @@ async function main() {
   document
     .getElementById("addphoto-species-select")
     .addEventListener("change", (event) => {
+      document.getElementById("addphoto-error").classList.add("hidden");
       renderAddPhotoThumbs(event.target.value);
     });
 
@@ -401,8 +403,15 @@ async function main() {
     .addEventListener("click", async () => {
       const select = document.getElementById("addphoto-species-select");
       const fileInput = document.getElementById("addphoto-file-input");
+      const errorEl = document.getElementById("addphoto-error");
       const file = fileInput.files[0];
-      if (!file) return;
+      errorEl.classList.add("hidden");
+      errorEl.textContent = "";
+      if (!file) {
+        errorEl.textContent = "Choose a photo first, then tap Save Photo.";
+        errorEl.classList.remove("hidden");
+        return;
+      }
 
       const saveBtn = document.getElementById("addphoto-save-btn");
       saveBtn.disabled = true;
@@ -420,6 +429,11 @@ async function main() {
 
         fileInput.value = "";
         renderAddPhotoThumbs(speciesId);
+      } catch (err) {
+        console.error("Failed to save photo", err);
+        errorEl.textContent =
+          "Couldn't save that photo on this device. Please try again.";
+        errorEl.classList.remove("hidden");
       } finally {
         saveBtn.disabled = false;
         saveBtn.textContent = "Save Photo";
