@@ -213,6 +213,12 @@ body {
   color: #444;
 }
 
+.common-name-sub {
+  font-size: 1rem;
+  color: #444;
+  font-weight: 600;
+}
+
 .phonetic {
   font-style: normal;
   font-size: 0.85rem;

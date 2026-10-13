@@ -24,11 +24,10 @@ const DECKS = {
     imageFor: (item) => item,
     frontHint: "Tap to reveal name",
     frontContent: () => null,
-    backTitle: (item) => item.commonName,
-    backSubtitle: (item) => ({
-      latin: item.latinName,
-      phonetic: item.phonetic,
-    }),
+    titleItalic: true,
+    backTitle: (item) => item.latinName,
+    backTitlePhonetic: (item) => item.phonetic,
+    backSubtitle: (item) => item.commonName,
   },
   genus: {
     namespace: "genus",
@@ -123,7 +122,22 @@ export function initFlashcardMode({ speciesList, progress, elements }) {
       face.appendChild(gallery);
 
       const h2 = document.createElement("h2");
-      h2.textContent = currentDeck.backTitle(item);
+      if (currentDeck.titleItalic) {
+        const titleEm = document.createElement("em");
+        titleEm.textContent = currentDeck.backTitle(item);
+        h2.appendChild(titleEm);
+      } else {
+        h2.textContent = currentDeck.backTitle(item);
+      }
+      if (currentDeck.backTitlePhonetic) {
+        const titlePhonetic = currentDeck.backTitlePhonetic(item);
+        if (titlePhonetic) {
+          const phonetic = document.createElement("span");
+          phonetic.className = "phonetic";
+          phonetic.textContent = ` (${titlePhonetic})`;
+          h2.appendChild(phonetic);
+        }
+      }
       face.appendChild(h2);
 
       const subtitle = currentDeck.backSubtitle(item);
@@ -144,6 +158,11 @@ export function initFlashcardMode({ speciesList, progress, elements }) {
           ul.appendChild(li);
         });
         face.appendChild(ul);
+      } else if (typeof subtitle === "string") {
+        const common = document.createElement("p");
+        common.className = "common-name-sub";
+        common.textContent = subtitle;
+        face.appendChild(common);
       } else {
         const latin = document.createElement("p");
         latin.className = "latin-name";
