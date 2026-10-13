@@ -1,4 +1,4 @@
-const CACHE_NAME = "tree-id-trainer-v22";
+const CACHE_NAME = "tree-id-trainer-v23";
 const ASSETS = [
   "./",
   "./index.html",
@@ -47,20 +47,21 @@ self.addEventListener("activate", (event) => {
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
+  // Network-first: always try to get the latest version when online, and
+  // only fall back to the cached copy when offline. The previous
+  // cache-first strategy could keep serving an old cached JS/HTML file
+  // indefinitely even after a new version was deployed.
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const networkFetch = fetch(event.request)
-        .then((response) => {
-          if (response.ok && response.type === "basic") {
-            const clone = response.clone();
-            caches
-              .open(CACHE_NAME)
-              .then((cache) => cache.put(event.request, clone));
-          }
-          return response;
-        })
-        .catch(() => cached);
-      return cached || networkFetch;
-    }),
+    fetch(event.request)
+      .then((response) => {
+        if (response.ok && response.type === "basic") {
+          const clone = response.clone();
+          caches
+            .open(CACHE_NAME)
+            .then((cache) => cache.put(event.request, clone));
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request)),
   );
 });
